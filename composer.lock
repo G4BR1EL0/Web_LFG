@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a16c3c541bd99241cab1c21ce8e83ac",
+    "content-hash": "58190d5bba98e113938a9a2582e00882",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1023,6 +1023,62 @@
                 "source": "https://github.com/laravel/framework"
             },
             "time": "2021-05-11T14:00:02+00:00"
+        },
+        {
+            "name": "laravel/installer",
+            "version": "v4.2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/installer.git",
+                "reference": "23a95e0068ef9d46bb3baab6df47ac028f585541"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/installer/zipball/23a95e0068ef9d46bb3baab6df47ac028f585541",
+                "reference": "23a95e0068ef9d46bb3baab6df47ac028f585541",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8.0",
+                "symfony/console": "^4.0|^5.0",
+                "symfony/process": "^4.2|^5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0|^9.3"
+            },
+            "bin": [
+                "bin/laravel"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Installer\\Console\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel application installer.",
+            "keywords": [
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/installer/issues",
+                "source": "https://github.com/laravel/installer/tree/v4.2.5"
+            },
+            "time": "2021-04-27T18:03:38+00:00"
         },
         {
             "name": "laravel/tinker",

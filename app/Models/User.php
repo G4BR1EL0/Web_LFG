@@ -11,6 +11,15 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public function partyuser()
+    {
+        return $this->hasMany(PartyUser::class);
+    }
+    public function chat()
+    {
+        return $this->hasMany(Chat::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
