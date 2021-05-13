@@ -19,7 +19,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             response()->json([
                 'created' => false,
-                'errors'  => $validator->errors()->all()
+                'errors' => $validator->errors()->all()
             ], 400);
         }
 
@@ -35,10 +35,29 @@ class AuthController extends Controller
             $this->scope = $userRole->role;
         }
 
-        $tokenResult = $user->createToken($user->email.' - '.now(), [$this->scope]);
+        $tokenResult = $user->createToken($user->email . ' - ' . now(), [$this->scope]);
 
         return response()->json([
             'access_token' => $tokenResult->accessToken,
         ]);
+    }
+    public function singUp(Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string'
+        ]);
+        if ($validator->fails()) {
+            response()->json([
+                'created' => false,
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password)
+        ]);
+        return response()->json(['message' => 'Successfully created user!'], 201);
     }
 }
