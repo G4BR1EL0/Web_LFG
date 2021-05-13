@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\PartyController;
 
     /*
     |--------------------------------------------------------------------------
@@ -21,12 +20,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(
-    [ 'prefix' => 'auth' ], function ()
+    [ 'prefix' => 'auth'], function ()
 {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'singUp']);
-}
-);
+    Route::group(
+        ['middleware' => 'auth:api'], function(){
+            Route::get('logout', [AuthController::class, 'logout']);
+        });
+});
+
 
 Route::apiResource('/parties', '\App\Http\Controllers\PartyController');
 

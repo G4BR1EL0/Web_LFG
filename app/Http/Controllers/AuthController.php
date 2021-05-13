@@ -20,7 +20,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             response()->json([
                 'created' => false,
-                'errors' => $validator->errors()->all()
+                'errors'  => $validator->errors()->all()
             ], 400);
         }
 
@@ -36,7 +36,7 @@ class AuthController extends Controller
             $this->scope = $userRole;
         }
 
-        $tokenResult = $user->createToken($user->email . ' - ' . now(), [$this->scope]);
+        $tokenResult = $user->createToken($user->email.' - '.now(), [$userRole]);
 
         return response()->json([
             'access_token' => $tokenResult->accessToken,
@@ -60,5 +60,15 @@ class AuthController extends Controller
             'password' => bcrypt($request->password)
         ]);
         return response()->json(['message' => 'Successfully created user!'], 201);
+    }
+
+    public function logout(Request $request)
+    {
+        dd($request->user()->token());
+        $request->user()->token()->revoke();
+
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
     }
 }
