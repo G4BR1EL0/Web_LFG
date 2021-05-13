@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\PartyController;
+
 
 /*
     |--------------------------------------------------------------------------
@@ -16,25 +18,26 @@ use App\Http\Controllers\PartyController;
     |
     */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+   // return $request->user();
+//});
 
 
 Route::group(
-    ['prefix' => 'auth'],
-    function () {
-        Route::post('login', [AuthController::class, 'login']);
-        Route::post('register', [AuthController::class, 'singUp']);
-        // Use this group with middleware to can get User from request
-        Route::group(
-            ['middleware' => 'auth:api'],
-            function () {
-                Route::get('logout', [AuthController::class, 'logout']);
-            }
-        );
-    }
-);
+
+    [ 'prefix' => 'auth'], function ()
+{
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'singUp']);
+    Route::group(
+        ['middleware' => 'auth:api'], function(){
+            Route::get('logout', [AuthController::class, 'logout']);
+            Route::get('/user', function (Request $request) {
+                return $request->user();
+            });
+            Route::patch('update/user/{id}', [UserController::class, 'edit']);
+        });
+});
 
 
 Route::group(
