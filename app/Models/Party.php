@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Party extends Model
 {
     protected $fillable = ['game_id'];
+
     public function games()
     {
         return $this->belongsTo(Game::class);
