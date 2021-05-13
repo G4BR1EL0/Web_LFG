@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
+class AuthController extends Controller
+{
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+            'password' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            response()->json([
+                'created' => false,
+                'errors'  => $validator->errors()->all()
+            ], 400);
+        }
+
+        $credentials = request(['email', 'password']);
+
+        if (!Auth::attempt($credentials))
+            return response()->json(['message' => 'Unauthorized'], 401);
+
+        $user = $request->user();
+        $userRole = $user->role()->first();
+
+        if ($userRole) {
+            $this->scope = $userRole->role;
+        }
+
+        $tokenResult = $user->createToken($user->email.' - '.now(), [$this->scope]);
+
+        return response()->json([
+            'access_token' => $tokenResult->accessToken,
+        ]);
+    }
+}
