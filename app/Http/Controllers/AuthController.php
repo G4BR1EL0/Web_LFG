@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,10 +30,10 @@ class AuthController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
 
         $user = $request->user();
-        $userRole = $user->role()->first();
+        $userRole = $user->role;
 
         if ($userRole) {
-            $this->scope = $userRole->role;
+            $this->scope = $userRole;
         }
 
         $tokenResult = $user->createToken($user->email . ' - ' . now(), [$this->scope]);
