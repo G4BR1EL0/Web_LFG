@@ -40,12 +40,11 @@ class PartyController extends Controller
             }
             $party_id = $request->get('party_id');
 
-            $PartyUsers = PartyUser::where('party_id', $party_id)->get();
 
-            foreach ($PartyUsers as $value)
-            {
-                PartyUser::destroy(['id' => $value->id]);
-            }
+            $status = PartyUser::where('party_id', $party_id)->delete();
+
+            if(!$status) return response()->json(['message' => 'No existe esa party']);
+
             Party::destroy(['id' => $party_id]);
             return response()->json(['message' => 'Party eliminada'], 200);
         }

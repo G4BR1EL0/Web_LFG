@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PartyController;
 use App\Http\Controllers\PartyUsersController;
+use App\Http\Controllers\ChatController;
 
 /*
     |--------------------------------------------------------------------------
@@ -55,5 +56,15 @@ Route::group(
 );
 
 
-
-//Route::post('/create', '\App\Http\Controllers\PartyController');
+Route::group(
+    ['prefix' => 'chat'],
+    function () {
+        Route::group(
+            ['Middleware' => 'auth:api'],
+            function () {
+                Route::post('send', [ChatController::class, 'send']);
+                Route::get('msg', [ChatController::class, '']);
+            }
+        );
+    }
+);

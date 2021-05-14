@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\PartyUser;
+use App\Models\Party;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PartyUserFactory extends Factory
+class PartyFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = PartyUser::class;
+    protected $model = Party::class;
 
     /**
      * Define the model's default state.
@@ -22,8 +22,7 @@ class PartyUserFactory extends Factory
     public function definition()
     {
         return [
-            'party_id' => $this->faker->numberBetween(8, 8),
-            'user_id' => $this->faker->numberBetween(1, 20)
+            'game_id' => $this->faker->numberBetween(1,10)
         ];
     }
 }
