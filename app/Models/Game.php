@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Game extends Model
 {
-    protected $fillable = ['name', 'genre'];
+    protected $fillable = ['id','name', 'genre'];
     public function parties()
     {
         return $this->hasMany(Party::class);
