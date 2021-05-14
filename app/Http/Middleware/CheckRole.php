@@ -6,11 +6,12 @@ class CheckRole
 {
     public function handle($request, Closure $next)
     {
-        $userRole = $request->user->role;
+        $userRole = $request->user()->role;
+        
         if ($userRole) {
             $request->request->add([
                 'scope' => $userRole
-            ]);
+            ]);            
         }
         return $next($request);
     }
