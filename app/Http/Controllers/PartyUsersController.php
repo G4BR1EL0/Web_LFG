@@ -50,4 +50,5 @@ class PartyUsersController extends Controller
 
         return response()->json(['message' => 'Ya no perteneces a esta party'], 200);
     }
+
 }
