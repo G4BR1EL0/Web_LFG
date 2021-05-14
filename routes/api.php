@@ -26,7 +26,6 @@ use App\Http\Controllers\ChatController;
 // });
 
 Route::group(
-
     [ 'prefix' => 'auth'], function ()
 {
     Route::post('login', [AuthController::class, 'login']);
@@ -47,13 +46,12 @@ Route::group(
     Route::group(
         ['middleware' => 'auth:api'], function(){
             Route::get('/', [GameController::class, 'getGames']);
-        }
-    );
-    
-    Route::group(
-        ['middleware' => ['auth:api','scope:admin']], function(){
-            Route::post('/', [GameController::class, 'createGame']);
-            Route::delete('delete/{id}', [GameController::class, 'deleteGames']);
+            Route::group(
+            ['middleware' => ['scope:admin']], function(){
+                Route::post('/', [GameController::class, 'createGame']);
+                Route::delete('delete/{id}', [GameController::class, 'deleteGames']);
+                }
+            );
         }
     );
 });
@@ -67,6 +65,8 @@ Route::group(
         Route::group(
             ['middleware' => 'auth:api'],
             function () {
+                Route::get('/', [PartyController::class, 'getParties']);
+                Route::get('/{game_id}', [PartyController::class, 'getGameParties']);
                 Route::post('addUser', [PartyUsersController::class, 'create']);
                 Route::delete('removeUser', [PartyUsersController::class, 'deleteUser']);
                 Route::delete('delete', [PartyController::class, 'delete']);
@@ -82,8 +82,10 @@ Route::group(
         Route::group(
             ['Middleware' => 'auth:api'],
             function () {
-                Route::post('send', [ChatController::class, 'send']);
-                Route::get('msg', [ChatController::class, '']);
+                Route::post('send/{party_id}', [ChatController::class, 'createMessage']);
+                Route::get('msg', [ChatController::class, 'getMessages']);
+                Route::patch('edit/{id}', [ChatController::class, 'editMessage']);
+                Route::delete('delete/{id}', [ChatController::class, 'destroyMessage']);
             }
         );
     }
