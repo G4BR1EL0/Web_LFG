@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PartyController;
+use App\Http\Controllers\PartyUsersController;
 
 
 /*
@@ -48,11 +49,14 @@ Route::group(
         Route::group(
             ['middleware' => 'auth:api'],
             function () {
+                Route::post('addUser', [PartyUsersController::class, 'create']);
+                Route::delete('removeUser', [PartyUsersController::class, 'deleteUser']);
                 Route::delete('delete', [PartyController::class, 'delete']);
             }
         );
     }
 );
+
 
 
 //Route::post('/create', '\App\Http\Controllers\PartyController');
