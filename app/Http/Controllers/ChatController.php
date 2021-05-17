@@ -48,11 +48,40 @@ class ChatController extends Controller
     }
 
     public function editMessage(Request $request, $id){
+        $userId = $request->user()->id;
         $msg = $request->get('message');
-        $chat = Chat::where('id','=',$id)
+        $chat = chat::find($id);
+
+        if(empty($chat))
+            return response()->json(['message' => 'no existe mensaje con id !'.$id], 400);
+        
+        $chat = Chat::where('id','=',$id)->where('user_id', '=', $userId)->first();        
+        
+        if(!$chat)
+            return response()->json(['message' => 'no puedes editar los mensajes de otro usuario!'], 400);
+
+        Chat::where('id','=',$id)->where('user_id', '=', $userId)
         ->update([
             'msg' => $msg
         ]);
+
         return response()->json(['message' => 'mensaje editado!'], 200);
+    }    
+
+    public function destroyMessage(Request $request, $id){
+        $userId = $request->user()->id;
+        $chat = chat::find($id);
+
+        if(!$chat)
+            return response()->json(['message' => 'no existe mensaje con id !'.$id], 400);
+        
+        $chat = Chat::where('id','=',$id)->where('user_id', '=', $userId)->first();        
+        
+        if(!$chat)
+            return response()->json(['message' => 'no puedes borrar los mensajes de otro usuario!'], 400);
+
+        Chat::destroy($id);
+
+        return response()->json(['message' => 'mensaje borrado!'], 200);
     }    
 }
