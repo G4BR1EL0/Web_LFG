@@ -38,23 +38,21 @@ class ChatController extends Controller
         return response()->json(['message' => 'mensaje creado!'], 200);
     }
 
-    public function getMessages(Request $request)
+    public function getMessages($partyId)
     {
-
-        $validator = Validator::make($request->all(), [
-            'party_id' => ['required', 'integer']
-        ]);
-        if($validator->fails()){
-            return response()->json(['error' => [
-                'created' => false,
-                'message' => $validator->errors()->all()]], 400);
-        }
-
-        $partyId = $request->party_id;
-
         $findMessages = Chat::where('party_id', $partyId)->get();
-
+        if (empty($findMessages->toArray()))
+            return response()->json(['message' => "no hay mensajes"], 400);
         return response()->json(['message' => $findMessages], 200);
 
     }
+
+    public function editMessage(Request $request, $id){
+        $msg = $request->get('message');
+        $chat = Chat::where('id','=',$id)
+        ->update([
+            'msg' => $msg
+        ]);
+        return response()->json(['message' => 'mensaje editado!'], 200);
+    }    
 }
