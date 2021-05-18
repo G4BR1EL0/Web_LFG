@@ -50,7 +50,7 @@ class BanController extends Controller
         PartyUser::where('party_id', $partyId)->where('user_id', $user)->delete();
 
 
-        return response()->json(['message' => 'Usuario baneado de esa party'], 200);
+        return response()->json(['message' => 'Usuario baneado'], 200);
 
     }
 
@@ -83,7 +83,9 @@ class BanController extends Controller
 
         $isBanned = Ban::where('party_id', $partyId)->where('user_id', $user)->first();
 
+        feature/ReportSystem
         if(!$isBanned) return response()->json(['message' => 'El usuario no se encuentra baneado de esa party'], 404);
+
 
         Ban::where('party_id', $partyId)->where('user_id', $user)->delete();
 
