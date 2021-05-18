@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ban;
 use App\Models\PartyUser;
 use Illuminate\Http\Request;
 
@@ -19,6 +20,11 @@ class PartyUsersController extends Controller
                 return response()->json(['message' => 'Ya estas en esta party'], 400);
             }
         }
+
+        $isBanned = Ban::where('party_id', $partyId)->where('user_id', $user)->first();
+
+        if($isBanned) return response()->json(['message' => 'El usuario se encuentra baneado de la party'], 403);
+
 
         PartyUser::create(
             [

@@ -22,6 +22,7 @@ class PartyFactory extends Factory
     public function definition()
     {
         return [
+            'name' => $this->faker->name(),
             'game_id' => $this->faker->numberBetween(1,10)
         ];
     }
