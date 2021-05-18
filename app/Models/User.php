@@ -6,10 +6,20 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
+
+    public function partyuser()
+    {
+        return $this->hasMany(PartyUser::class);
+    }
+    public function chat()
+    {
+        return $this->hasMany(Chat::class);
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +30,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
