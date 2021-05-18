@@ -80,10 +80,10 @@ Route::group(
     ['prefix' => 'chat'],
     function () {
         Route::group(
-            ['Middleware' => 'auth:api'],
+            ['middleware' => 'auth:api'],
             function () {
-                Route::post('send/{party_id}', [ChatController::class, 'createMessage']);
-                Route::get('msg', [ChatController::class, 'getMessages']);
+                Route::post('send/{partyId}', [ChatController::class, 'createMessage']);
+                Route::get('msg/{partyId}', [ChatController::class, 'getMessages']);
                 Route::patch('edit/{id}', [ChatController::class, 'editMessage']);
                 Route::delete('delete/{id}', [ChatController::class, 'destroyMessage']);
             }
