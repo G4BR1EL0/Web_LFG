@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PartyController;
 use App\Http\Controllers\PartyUsersController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\BanController;
 
 
 /*
@@ -70,6 +71,13 @@ Route::group(
                 Route::post('addUser', [PartyUsersController::class, 'create']);
                 Route::delete('removeUser', [PartyUsersController::class, 'deleteUser']);
                 Route::delete('delete', [PartyController::class, 'delete']);
+                Route::group(
+                    ['middleware' => ['scope:admin']],
+                    function() {
+                        Route::post('ban', [BanController::class, 'ban']);
+                        Route::post('unban', [BanController::class, 'unban']);
+                    }
+                );
             }
         );
     }
